@@ -23,10 +23,17 @@ jobs:
 
     - name: Install Android SDK
       run: |
+        # Install required dependencies
         sudo apt-get update
         sudo apt-get install -y wget unzip
+
+        # Download and install command line tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O commandlinetools.zip
-        unzip commandlinetools.zip -d $HOME/android-sdk
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        unzip commandlinetools.zip -d $HOME/android-sdk/cmdline-tools
+        rm commandlinetools.zip
+
+        # Install Android SDK components
         yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk --licenses
         $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "platforms;android-30" "build-tools;30.0.2"
 
